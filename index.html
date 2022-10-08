@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course</title>
+  <script lang="javascript" src="js/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.28/vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.4/chance.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.3/numeral.min.js"></script>
+  <link rel="stylesheet" href="./css/bulma.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"
+    integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww=="
+    crossorigin="anonymous"></script>
+  <script src="./js/alasql.min.js"></script>
+  <script src="./js/jquery.js"> </script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- <link rel="manifest" href="./manifest.webmanifest"> -->
+
+
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="WIN神App">
+  <link rel="apple-touch-startup-image" href="./abc.png">
+  <link rel="apple-touch-icon" href="./abc.png">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="icon" href="./abc.png">
+  <meta name="mobile-web-app-capable" content="yes">
+
+</head>
+
+<body>
+  <div id="app" class="container">
+    <center>
+      <h3 class="title is-3 ">雀神 <img src="image/youtube.png" width="5%" height="5%" alt="影片教學"
+          href="https://www.youtube.com/playlist?list=PLOUGje_jNczNarCntAhi26Pw2xToh6G3H"></>
+      </h3>
+      底銀是多少: <input id="basemoney" value="800" v-model="basemoney" size="5" placeholder="底銀">
+      比率: <input id="basemoney" value="0.1" v-model="rate" size="5" placeholder="0.1">
+      <br>
+      <br>
+      <h1> 底銀平均值: {{sum}} &nbsp;&nbsp;&nbsp; 底銀誤差 : {{basemonerror}}</h1>
+      <br>
+      <br>
+
+      抽水(剩籌碼) : <input type="text" id="money1" value="400" v-model="commission" size="12" @keyup='clear'
+        placeholder="有多少佣金">&nbsp;&nbsp; 每人可得佣(籌碼) {{percommission}}
+
+      <br>
+      <br>
+      姓名: <input type="text" id="name1" value="ben" v-model="name1" size="10" @keyup='clear' placeholder="人物東">
+      剩籌碼(含本) : <input type="text" id="money1" value="500" v-model="money1" size="12" @keyup='clear'
+        placeholder="剩多少錢包含本金">
+      <br>
+      <br>
+      姓名: <input type="text" id="name2" value="fatfong" v-model="name2" size="10" @keyup='clear' placeholder="人物南">
+      剩籌碼(含本) : <input type="text" id="money1" value="600" v-model="money2" size="12" @keyup='clear'
+        placeholder="剩多少錢包含本金">
+      <br>
+      <br>
+      姓名: <input type="text" id="name3" value="甘" v-model="name3" size="10" @keyup='clear' placeholder="人物西">
+      剩籌碼(含本) : <input type="text" id="money1" value="800" v-model="money3" size="12" @keyup='clear'
+        placeholder="剩多少錢包含本金">
+      <br>
+      <br>
+      姓名: <input type="text" id="name4" value="vincent" v-model="name4" size="10" @keyup='clear' placeholder="人物北">
+      剩籌碼(含本) : <input type="text" id="money1" value="900" v-model="money4" size="12" @keyup='clear'
+        placeholder="剩多少錢包含本金">
+      <br>
+      <div v-if="show">↞ ------------------------------↠ </div>
+      <h1 id="paypaypay"> </h1>
+      <div v-if="show">↞ ------------------------------↠ </div>
+      <br>
+      <button class="button is-success" @click="branchimportswitchs">提交</button>
+    </center>
+  </div>
+  <style>
+    #app {
+      padding: 40px 0;
+    }
+
+    .m-pagination .is-space {
+      width: 20px;
+    }
+
+    .m-table {
+      margin-top: 20px;
+    }
+
+    .m-table tr th {
+      background: #c0c0c0;
+      color: #393939;
+    }
+
+    .m-table-index {
+      width: 20px;
+    }
+
+    .m-tags-items {
+      margin-top: 5px;
+      height: 60px;
+      overflow-y: scroll;
+    }
+
+    .m-tags-items .tag {
+      margin-bottom: 5px;
+      margin-right: 3px;
+    }
+  </style>
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        percommission: 0 ,
+        commission: 0,
+        show: false,
+        rate: 0,
+        basemoney: '',
+        name1: '',
+        name2: '',
+        name3: '',
+        name4: '',
+        money1: 0,
+        money2: 0,
+        money3: 0,
+        money4: 0,
+        count: [],
+      },
+      ready() {
+        this.clear();
+      },
+      computed: {
+        sum: function () {
+
+          let money1 = this.money1;
+          let money2 = this.money2;
+          let money3 = this.money3;
+          let money4 = this.money4;
+          let commission = this.commission;
+
+
+          if (this.money1 == '') {
+              money1 = 0 ;
+          }
+          if (this.money2 == '') {
+              money2 = 0 ;
+          }
+          if (this.money3 == '') {
+              money3 = 0 ;
+          }
+          if (this.money4 == '') {
+              money4 = 0 ;
+          }
+          if (this.commission == '') {
+            commission = 0 ;
+          }
+
+          return (parseFloat(money1) + parseFloat(money2) + parseFloat(money3) + parseFloat(
+            money4) + parseFloat(commission)) / 4;
+        },
+        basemonerror: function () {
+          let money1 = this.money1;
+          let money2 = this.money2;
+          let money3 = this.money3;
+          let money4 = this.money4;
+          let commission = this.commission;
+
+          if (this.money1 == '') {
+              money1 = 0 ;
+          }
+          if (this.money2 == '') {
+              money2 = 0 ;
+          }
+          if (this.money3 == '') {
+              money3 = 0 ;
+          }
+          if (this.money4 == '') {
+              money4 = 0 ;
+          }
+          if (this.commission == '') {
+            commission = 0 ;
+          }
+          return this.basemoney * 4 - (parseFloat(money1) + parseFloat(money2) + parseFloat(money3) + parseFloat(money4) + parseFloat(commission));
+        }
+      },
+      methods: {
+        clear() {
+          this.percommission = this.commission / 4 ;
+          this.show = false;
+          document.getElementById("paypaypay").innerHTML = "";
+        },
+        branchimportswitchs() {
+          this.show = true;
+          document.getElementById("paypaypay").innerHTML = "";
+
+          test = parseFloat(this.money1) + parseFloat(this.money2) + parseFloat(this.money3) + parseFloat(this
+            .money4) + parseFloat(this.commission);
+
+          if (test != this.basemoney * 4) {
+            alert("出錯了有人輸入金錢錯誤");
+            this.show = false;
+            return;
+          }
+
+          this.money1 = parseFloat(this.money1) + parseFloat(this.commission) / 4;
+          this.money2 = parseFloat(this.money2) + parseFloat(this.commission) / 4;
+          this.money3 = parseFloat(this.money3) + parseFloat(this.commission) / 4;
+          this.money4 = parseFloat(this.money4) + parseFloat(this.commission) / 4;
+          this.commission = 0;
+          this.count = [{
+              "name": this.name1,
+              "money": this.money1,
+            },
+            {
+              "name": this.name2,
+              "money": this.money2,
+            },
+            {
+              "name": this.name3,
+              "money": this.money3,
+            },
+            {
+              "name": this.name4,
+              "money": this.money4,
+            },
+          ]
+          for (let i = 0; i < this.count.length; i++) {
+            this.count[i].money = this.count[i].money - this.basemoney;
+          }
+          this.sortByKey(this.count, 'money');
+          this.wtfwhocare(this.count);
+        },
+        sortByKey(array, key) { //排序JSON 
+          return array.sort(function (a, b) {
+            var x = a[key];
+            var y = b[key];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+          });
+        },
+
+        wtfwhocare(wtf) {
+          let people = wtf.length - 1;
+          for (let i = 0; i <= people; i++) //print 人數 
+          {
+            if (wtf[people].money > wtf[i].money) {
+              let x, y, z;
+              x = wtf[i].money;
+              y = wtf[people].money;
+              z = x + y;
+              wtf[i].money = wtf[people].money + wtf[i].money;
+
+              if (z > 0) {
+                if (x * -1 != 0) {
+                  let output3 = x * -1;
+                  let outputok3 = output3.toFixed(2);
+                  $('#paypaypay').append(
+                    `${wtf[i].name} ➜ ${wtf[people].name}  `
+                  );
+                }
+
+              } else {
+                if (y != 0) {
+                  let output4 = x * -1;
+                  let outputok4 = output4.toFixed(2);
+
+                  $('#paypaypay').append(
+                    `${wtf[i].name} ➜ ${wtf[people].name}`
+                  );
+                }
+              }
+
+              if (wtf[i].money != 0) {
+                i = i - 1;
+              }
+
+              if (z > 0) {
+                wtf[people].money = z;
+                if (x * -1 != 0) {
+                  let output1 = x * -1;
+                  outputok1 = (output1 * this.rate).toFixed(1);
+                  $('#paypaypay').append(`<p style="color:red" >${outputok1} 元 <br></p>`);
+                }
+                z = 0;
+              } else {
+                people = people - 1;
+                if (y != 0) {
+                  let output2 = y;
+                  outputok2 = (output2 * this.rate).toFixed(1);
+                  $('#paypaypay').append(`<p style="color:red" >${outputok2} 元<br></p>`);
+                }
+              }
+            }
+          }
+        },
+
+      }
+    });
+  </script>
+</body>
+
+</html>
