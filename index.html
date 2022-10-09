@@ -40,6 +40,7 @@
 
 <body>
   <div id="app" class="container">
+    
     <center>
       <h3 class="title is-3 ">雀神 <img src="image/youtube.png" width="5%" height="5%" alt="影片教學"
           href="https://www.youtube.com/playlist?list=PLOUGje_jNczNarCntAhi26Pw2xToh6G3H"></>
@@ -50,7 +51,9 @@
       <br>
       <h1> 底銀平均值: {{sum}} &nbsp;&nbsp;&nbsp; 底銀誤差 : {{basemonerror}}</h1>
       <br>
-      <br>
+    <div v-if="!show">
+
+      <br>  
       抽水(剩籌碼) : <input type="text" id="money1" value="" v-model="commission" size="12" @keyup='clear'
         placeholder="有多少佣金">&nbsp;&nbsp; 每人可得佣(籌碼) {{percommission}}
       <br>
@@ -74,14 +77,138 @@
       剩籌碼(含本) : <input type="text" id="money1" value="" v-model="money4" size="12" @keyup='clear'
         placeholder="剩多少錢包含本金">
       <br>
-      <div v-if="show">↞ ------------------------------↠ </div>
-      <h1 id="paypaypay"> </h1>
-      <div v-if="show">↞ ------------------------------↠ </div>
       <br>
+ 
       <button class="button is-success" @click="branchimportswitchs">提交</button>
+      </div>
+
+
+
+      <div v-if="show">
+ 
+      <div class="box">
+        <span>
+          <div class="flex-align-title">
+              <table >
+                <span><a class="title is-3 " >個人明細 </a></span>
+                <th>  </th>
+                <tr>
+                  <td>{{name1}} </td>
+                  <td>↠</td>
+                  <td>{{omoney1}}</td><td> (原本)</td>
+                  <td>+</td>
+                  <td>{{percommission}} (佣金)</td>
+                  <td>= {{money1}}</td><td> (總數)</td>
+                  <td></td>
+                </tr>
+              </span>
+                <tr>
+                <span>
+
+                  <td>{{name2}} </td>
+                  <td>↠</td>
+                  <td>{{omoney2}}</td><td> (原本)</td>
+                  <td>+</td>
+                  <td>{{percommission}} (佣金)</td>
+                  <td>= {{money2}}</td><td> (總數)</td>
+                  <td></td>
+                </tr>
+              </span>
+              <span>
+                <tr>
+                  <td>{{name3}} </td>
+                  <td>↠</td>
+                  <td>{{omoney3}}</td><td> (原本)</td>
+                  <td>+</td>
+                  <td>{{percommission}} (佣金)</td>
+                  <td>= {{money3}}</td><td> (總數)</td>
+                  <td></td>
+                </tr>
+              </span>
+            <span>
+                <tr>
+                  <td>{{name4}} </td>
+                  <td>↠</td>
+                  <td>{{omoney4}}</td><td> (原本)</td>
+                  <td>+</td>
+                  <td>{{percommission}} (佣金)</td>
+                  <td>= {{money4}}</td><td> (總數)</td>
+                  <td></td>
+                </tr>
+              </span>
+              <br>
+              </table>  
+
+          </div>
+      </div>
+
+      <br>  
+    </div>
+
+
+    <div v-if="show">
+
+
+
+
+
+    
+        ↞ ------------------------------↠
+        <br>
+        <span><a class="title is-3 " >請跟指示進行結算 </a></span>
+        <span class="flex-align-title"></span>   
+
+      </div>
+
+
+
+          <h1 id="paypaypay"> </h1>
+
+
+
+
+
+          <div v-if="show">
+
+
+        ↞ ------------------------------↠ 
+
+
+  </div>
+
+
+
+
+      <br>
+    </div>
+
+  </div>
+<br>
+
+
+      
     </center>
+
+    
   </div>
   <style>
+
+.box {
+            border: 1px solid gray;
+            margin: 0px auto;
+            padding: 6px;
+            width: auto;
+          }
+          .flex-align-title {
+            text-align: center;
+            width: 95%;
+          }
+          .flex-align-title span {
+            text-align: left;
+            display: inline-block;
+          }
+
+
     #app {
       padding: 40px 0;
     }
@@ -118,6 +245,10 @@
     new Vue({
       el: "#app",
       data: {
+        omoney1 : 0 ,
+        omoney2 : 0 ,
+        omoney3 : 0 ,
+        omoney4 : 0 ,
         percommission: 0 ,
         commission: 0,
         show: false,
@@ -195,8 +326,18 @@
           document.getElementById("paypaypay").innerHTML = "";
         },
         branchimportswitchs() {
+
+          this.omoney1 =  1;
+
+
+
           this.show = true;
           document.getElementById("paypaypay").innerHTML = "";
+
+          if (this.commission == '') {
+            this.commission = 0 ;
+          }
+
           test = parseFloat(this.money1) + parseFloat(this.money2) + parseFloat(this.money3) + parseFloat(this
             .money4) + parseFloat(this.commission);
 
@@ -205,6 +346,10 @@
             this.show = false;
             return;
           }
+          this. omoney1 = parseFloat(this.money1) ;
+          this. omoney2 = parseFloat(this.money2) ;
+          this. omoney3 = parseFloat(this.money3) ;
+          this. omoney4 = parseFloat(this.money4) ;
 
           this.money1 = parseFloat(this.money1) + parseFloat(this.commission) / 4;
           this.money2 = parseFloat(this.money2) + parseFloat(this.commission) / 4;
