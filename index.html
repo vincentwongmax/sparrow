@@ -5,6 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>sparrow</title>
+  <link href="css/phone.css" rel="stylesheet" type="text/css"
+    media="only screen and (min-width: 0px) and (max-width: 520px)" />
+  <link href="css/tablet.css" rel="stylesheet" type="text/css"
+    media="only screen and (min-width: 521px) and (max-width: 768px)" /--> <link href="css/desktop.css" rel="stylesheet"
+    type="text/css" />
+
+
+
   <script lang="javascript" src="js/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.28/vue.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.4/chance.min.js"></script>
@@ -52,22 +60,22 @@
         <br>
         <br>
         姓名: <input type="text" id="name1" value="人物東" v-model="name1" size="10" @keyup='clear' placeholder="人物東">
-        剩籌碼(含本) : <input type="text" id="money1" value="" v-model="money1" size="12" @keyup='clear'
+        剩籌碼(含本) : <input type="number" id="money1"  value=""  v-model="money1" size="5" @keyup='clear'
           placeholder="剩多少錢包含本金">
         <br>
         <br>
         姓名: <input type="text" id="name2" value="人物南" v-model="name2" size="10" @keyup='clear' placeholder="人物南">
-        剩籌碼(含本) : <input type="text" id="money1" value="" v-model="money2" size="12" @keyup='clear'
+        剩籌碼(含本) : <input type="number" id="money1" value=""  size="5" @keyup='clear'
           placeholder="剩多少錢包含本金">
         <br>
         <br>
         姓名: <input type="text" id="name3" value="人物西" v-model="name3" size="10" @keyup='clear' placeholder="人物西">
-        剩籌碼(含本) : <input type="text" id="money1" value="" v-model="money3" size="12" @keyup='clear'
+        剩籌碼(含本) : <input type="number" id="money1" value=""   v-model="money3" size="5" @keyup='clear'
           placeholder="剩多少錢包含本金">
         <br>
         <br>
         姓名: <input type="text" id="name4" value="人物北" v-model="name4" size="10" @keyup='clear' placeholder="人物北">
-        剩籌碼(含本) : <input type="text" id="money1" value="" v-model="money4" size="12" @keyup='clear'
+        剩籌碼(含本) : <input type="number" id="money1" value=""  v-model="money4" size="0" @keyup='clear'
           placeholder="剩多少錢包含本金">
         <br>
         <br>
@@ -170,12 +178,10 @@
   </center>
   </div>
   <style>
-    .box {
-      border: 1px solid gray;
-      margin: 0px auto;
-      padding: 6px;
-      width: 90%;
+    input[type='number'] {
+      width: 90px;
     }
+
 
     .flex-align-title {
       text-align: center;
@@ -305,7 +311,7 @@
       },
       methods: {
         reload() {
-          if (this.show == true) {
+          if (this.show == false) {
             if (confirm("是否要進行清空")) {
               this.rate = '';
               this.commission = '';
