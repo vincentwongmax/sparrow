@@ -92,7 +92,7 @@
                   <td>↠</td>
                   <td>總數(金額)</td>
                 </tr>
-              
+
                 <tr>
                   <td>{{name1}} </td>
                   <td>↠</td>
@@ -104,7 +104,7 @@
                   <td>↠</td>
                   <td>{{lastmoney1}}</td>
                 </tr>
-           
+
                 <tr>
                   <td>{{name2}} </td>
                   <td>↠</td>
@@ -128,7 +128,7 @@
                   <td>↠</td>
                   <td>{{lastmoney3}}</td>
                 </tr>
-                
+
                 <tr>
                   <td>{{name4}} </td>
                   <td>↠</td>
@@ -174,7 +174,7 @@
       border: 1px solid gray;
       margin: 0px auto;
       padding: 6px;
-      width: 50%;
+      width: 90%;
     }
 
     .flex-align-title {
@@ -224,10 +224,10 @@
     new Vue({
       el: "#app",
       data: {
-        lastmoney1 : 0 ,
-        lastmoney2 : 0 ,
-        lastmoney3 : 0 ,
-        lastmoney4 : 0 ,
+        lastmoney1: 0,
+        lastmoney2: 0,
+        lastmoney3: 0,
+        lastmoney4: 0,
         omoney1: 0,
         omoney2: 0,
         omoney3: 0,
@@ -304,25 +304,31 @@
         }
       },
       methods: {
-        reload(){
-        this.rate= '';
-        this.commission = '';
-        this.percommission = 0;
-        this.basemoney = '';
-        this.name1 =  '';
-        this.name2 =  '';
-        this.name3 =  '';
-        this.name4 =  '';
-        this.money1 =  '';
-        this.money2 =  '';
-        this.money3 =  '';
-        this.money4 =  '';
-
-        if(this.show == true){
-          if(confirm("按確定重置數據, 清空數據前請截圖保存")){
-            window.location.reload();
+        reload() {
+          if (this.show == true) {
+            if (confirm("是否要進行清空")) {
+              this.rate = '';
+              this.commission = '';
+              this.percommission = 0;
+              this.basemoney = '';
+              this.name1 = '';
+              this.name2 = '';
+              this.name3 = '';
+              this.name4 = '';
+              this.money1 = '';
+              this.money2 = '';
+              this.money3 = '';
+              this.money4 = '';
+            }
           }
-        }
+
+
+
+          if (this.show == true) {
+            if (confirm("按確定重置數據, 清空數據前請截圖保存")) {
+              window.location.reload();
+            }
+          }
 
         },
         clear() {
@@ -343,12 +349,12 @@
           test = parseFloat(this.money1) + parseFloat(this.money2) + parseFloat(this.money3) + parseFloat(this
             .money4) + parseFloat(this.commission);
 
-          if (this.name1 == '' || this.name2 == '' || this.name3 == '' || this.name4 == '' ) {
+          if (this.name1 == '' || this.name2 == '' || this.name3 == '' || this.name4 == '') {
             alert("請輸入姓名");
             this.show = false;
             return;
           }
-          
+
           if (test != this.basemoney * 4) {
             alert("出錯了,輸入金額錯誤,底銀誤差必須為0");
             this.show = false;
@@ -385,10 +391,10 @@
             this.count[i].money = this.count[i].money - this.basemoney;
           }
 
-          this.lastmoney1 = (this.count[0].money * this.rate).toFixed(2) ;
-          this.lastmoney2 = (this.count[1].money * this.rate).toFixed(2) ;
-          this.lastmoney3 = (this.count[2].money * this.rate).toFixed(2) ;
-          this.lastmoney4 = (this.count[3].money * this.rate).toFixed(2) ;
+          this.lastmoney1 = (this.count[0].money * this.rate).toFixed(2);
+          this.lastmoney2 = (this.count[1].money * this.rate).toFixed(2);
+          this.lastmoney3 = (this.count[2].money * this.rate).toFixed(2);
+          this.lastmoney4 = (this.count[3].money * this.rate).toFixed(2);
 
           this.sortByKey(this.count, 'money');
           this.wtfwhocare(this.count);
