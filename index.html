@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Course</title>
+  <title>sparrow</title>
   <script lang="javascript" src="js/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.28/vue.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.4/chance.min.js"></script>
@@ -39,8 +39,8 @@
       <h3 class="title is-3 ">雀神 <img src="image/youtube.png" width="5%" height="5%" alt="影片教學"
           href="https://www.youtube.com/playlist?list=PLOUGje_jNczNarCntAhi26Pw2xToh6G3H"></>
       </h3>
-      底銀是多少: <input id="basemoney" value="800" v-model="basemoney" size="5" placeholder="底銀">
-      比率: <input id="basemoney" value="0.1" v-model="rate" size="5" placeholder="0.1">
+      每人底銀是多少: <input id="basemoney" value="800" v-model="basemoney" size="5" placeholder="底銀">
+      比率: <input id="basemoney" value="0.1" v-model="rate" size="5" placeholder="例如:0.1">
       <br>
       <br>
       <h1> 底銀平均值: {{sum}} &nbsp;&nbsp;&nbsp; 底銀誤差 : {{basemonerror}}</h1>
@@ -51,89 +51,98 @@
           placeholder="有多少佣金">&nbsp;&nbsp; 每人可得佣(籌碼) {{percommission}}
         <br>
         <br>
-        姓名: <input type="text" id="name1" value="ben" v-model="name1" size="10" @keyup='clear' placeholder="人物東">
+        姓名: <input type="text" id="name1" value="人物東" v-model="name1" size="10" @keyup='clear' placeholder="人物東">
         剩籌碼(含本) : <input type="text" id="money1" value="" v-model="money1" size="12" @keyup='clear'
           placeholder="剩多少錢包含本金">
         <br>
         <br>
-        姓名: <input type="text" id="name2" value="fatfong" v-model="name2" size="10" @keyup='clear' placeholder="人物南">
+        姓名: <input type="text" id="name2" value="人物南" v-model="name2" size="10" @keyup='clear' placeholder="人物南">
         剩籌碼(含本) : <input type="text" id="money1" value="" v-model="money2" size="12" @keyup='clear'
           placeholder="剩多少錢包含本金">
         <br>
         <br>
-        姓名: <input type="text" id="name3" value="甘" v-model="name3" size="10" @keyup='clear' placeholder="人物西">
+        姓名: <input type="text" id="name3" value="人物西" v-model="name3" size="10" @keyup='clear' placeholder="人物西">
         剩籌碼(含本) : <input type="text" id="money1" value="" v-model="money3" size="12" @keyup='clear'
           placeholder="剩多少錢包含本金">
         <br>
         <br>
-        姓名: <input type="text" id="name4" value="vincent" v-model="name4" size="10" @keyup='clear' placeholder="人物北">
+        姓名: <input type="text" id="name4" value="人物北" v-model="name4" size="10" @keyup='clear' placeholder="人物北">
         剩籌碼(含本) : <input type="text" id="money1" value="" v-model="money4" size="12" @keyup='clear'
           placeholder="剩多少錢包含本金">
         <br>
         <br>
-        <button class="button is-success" @click="branchimportswitchs">提交</button>
+        <button class="button is-success" @click="branchimportswitchs">提交</button>&nbsp;
+        <button class="button is-warning" @click="reload">清空</button>
       </div>
-      <div v-if="show">
 
+      <div v-if="show">
         <div class="box">
           <span>
             <div class="flex-align-title">
               <table>
-                <span><a class="title is-3 ">個人明細 </a></span>
-                <th> </th>
+                <span><a class="title is-3 ">個人明細</a></span>
+                <tr>
+                  <td>姓名</td>
+                  <td>↠</td>
+                  <td> 原本</td>
+                  <td>+</td>
+                  <td>佣金</td>
+                  <td>=</td>
+                  <td>總數(籌碼)</td>
+                  <td>↠</td>
+                  <td>總數(金額)</td>
+                </tr>
+              
                 <tr>
                   <td>{{name1}} </td>
                   <td>↠</td>
                   <td>{{omoney1}}</td>
-                  <td> (原本)</td>
                   <td>+</td>
-                  <td>{{percommission}} (佣金)</td>
-                  <td>= {{money1}}</td>
-                  <td> (總數)</td>
-                  <td></td>
+                  <td>{{percommission}} </td>
+                  <td>=</td>
+                  <td>{{money1}}</td>
+                  <td>↠</td>
+                  <td>{{lastmoney1}}</td>
+                </tr>
+           
+                <tr>
+                  <td>{{name2}} </td>
+                  <td>↠</td>
+                  <td>{{omoney2}}</td>
+                  <td>+</td>
+                  <td>{{percommission}} </td>
+                  <td>=</td>
+                  <td>{{money2}}</td>
+                  <td>↠</td>
+                  <td>{{lastmoney2}}</td>
+                </tr>
+
+                <tr>
+                  <td>{{name3}} </td>
+                  <td>↠</td>
+                  <td>{{omoney3}}</td>
+                  <td>+</td>
+                  <td>{{percommission}} </td>
+                  <td>=</td>
+                  <td>{{money3}}</td>
+                  <td>↠</td>
+                  <td>{{lastmoney3}}</td>
+                </tr>
+                
+                <tr>
+                  <td>{{name4}} </td>
+                  <td>↠</td>
+                  <td>{{omoney4}}</td>
+                  <td>+</td>
+                  <td>{{percommission}} </td>
+                  <td>=</td>
+                  <td>{{money4}}</td>
+                  <td>↠</td>
+                  <td>{{lastmoney4}}</td>
                 </tr>
           </span>
-          <tr>
-            <span>
-
-              <td>{{name2}} </td>
-              <td>↠</td>
-              <td>{{omoney2}}</td>
-              <td> (原本)</td>
-              <td>+</td>
-              <td>{{percommission}} (佣金)</td>
-              <td>= {{money2}}</td>
-              <td> (總數)</td>
-              <td></td>
-          </tr>
-          </span>
-          <span>
-            <tr>
-              <td>{{name3}} </td>
-              <td>↠</td>
-              <td>{{omoney3}}</td>
-              <td> (原本)</td>
-              <td>+</td>
-              <td>{{percommission}} (佣金)</td>
-              <td>= {{money3}}</td>
-              <td> (總數)</td>
-              <td></td>
-            </tr>
-          </span>
-          <span>
-            <tr>
-              <td>{{name4}} </td>
-              <td>↠</td>
-              <td>{{omoney4}}</td>
-              <td> (原本)</td>
-              <td>+</td>
-              <td>{{percommission}} (佣金)</td>
-              <td>= {{money4}}</td>
-              <td> (總數)</td>
-              <td></td>
-            </tr>
-          </span>
           <br>
+
           </table>
 
         </div>
@@ -150,6 +159,9 @@
   <h1 id="paypaypay"> </h1>
   <div v-if="show">
     ↞ ------------------------------↠
+    <br>
+    <button class="button is-warning" @click="reload">重置</button>
+
   </div>
   <br>
   </div>
@@ -162,7 +174,7 @@
       border: 1px solid gray;
       margin: 0px auto;
       padding: 6px;
-      width: auto;
+      width: 50%;
     }
 
     .flex-align-title {
@@ -212,6 +224,10 @@
     new Vue({
       el: "#app",
       data: {
+        lastmoney1 : 0 ,
+        lastmoney2 : 0 ,
+        lastmoney3 : 0 ,
+        lastmoney4 : 0 ,
         omoney1: 0,
         omoney2: 0,
         omoney3: 0,
@@ -288,6 +304,27 @@
         }
       },
       methods: {
+        reload(){
+        this.rate= '';
+        this.commission = '';
+        this.percommission = 0;
+        this.basemoney = '';
+        this.name1 =  '';
+        this.name2 =  '';
+        this.name3 =  '';
+        this.name4 =  '';
+        this.money1 =  '';
+        this.money2 =  '';
+        this.money3 =  '';
+        this.money4 =  '';
+
+        if(this.show == true){
+          if(confirm("按確定重置數據, 清空數據前請截圖保存")){
+            window.location.reload();
+          }
+        }
+
+        },
         clear() {
           this.percommission = this.commission / 4;
           this.show = false;
@@ -306,8 +343,14 @@
           test = parseFloat(this.money1) + parseFloat(this.money2) + parseFloat(this.money3) + parseFloat(this
             .money4) + parseFloat(this.commission);
 
+          if (this.name1 == '' || this.name2 == '' || this.name3 == '' || this.name4 == '' ) {
+            alert("請輸入姓名");
+            this.show = false;
+            return;
+          }
+          
           if (test != this.basemoney * 4) {
-            alert("出錯了有人輸入金錢錯誤");
+            alert("出錯了,輸入金額錯誤,底銀誤差必須為0");
             this.show = false;
             return;
           }
@@ -341,6 +384,12 @@
           for (let i = 0; i < this.count.length; i++) {
             this.count[i].money = this.count[i].money - this.basemoney;
           }
+
+          this.lastmoney1 = (this.count[0].money * this.rate).toFixed(2) ;
+          this.lastmoney2 = (this.count[1].money * this.rate).toFixed(2) ;
+          this.lastmoney3 = (this.count[2].money * this.rate).toFixed(2) ;
+          this.lastmoney4 = (this.count[3].money * this.rate).toFixed(2) ;
+
           this.sortByKey(this.count, 'money');
           this.wtfwhocare(this.count);
         },
