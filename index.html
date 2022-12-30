@@ -43,7 +43,7 @@
 <body>
   <div id="app" class="container">
     <center>
-      <div v-if="selectshow" class="select">
+      <div v-if="selectshow" >
         <select id="sel" v-model="Select_People" @change="Select_People_Function(Select_People)">
           <option value="">請選擇人物</option>
           <option type="input" v-for="product in getParameter" value="{{ product }}">
@@ -69,22 +69,22 @@
         <br>
         <br>
         姓名: <input type="text" id="name1" value="人物東" v-model="name1" size="10" @keyup='clear' placeholder="人物東">
-        <a @click="changeNumber1">剩籌碼(含本)</a> : <input type="number" id="money1" value="" v-model="money1" size="5"
+        <a @click="changeNumber1">剩籌碼(含本)</a> : <input type="number" id="money1" inputmode="decimal"value="" v-model="money1" size="5"
           @keyup='clear(1)' placeholder="剩多少錢包含本金">
         <br>
         <br>
         姓名: <input type="text" id="name2" value="人物南" v-model="name2" size="10" @keyup='clear' placeholder="人物南">
-        <a @click="changeNumber2">剩籌碼(含本)</a> : <input type="number" id="money2" value="" v-model="money2" size="5"
+        <a @click="changeNumber2">剩籌碼(含本)</a> : <input type="number" id="money2" inputmode="decimal" value="" v-model="money2" size="5"
           @keyup='clear(2)' placeholder="剩多少錢包含本金">
         <br>
         <br>
         姓名: <input type="text" id="name3" value="人物西" v-model="name3" size="10" @keyup='clear' placeholder="人物西">
-        <a @click="changeNumber3">剩籌碼(含本)</a> : <input type="number" id="money3" value="" v-model="money3" size="5"
+        <a @click="changeNumber3">剩籌碼(含本)</a> : <input type="number" id="money3" inputmode="decimal" value="" v-model="money3" size="5"
           @keyup='clear(3)' placeholder="剩多少錢包含本金">
         <br>
         <br>
         姓名: <input type="text" id="name4" value="人物北" v-model="name4" size="10" @keyup='clear' placeholder="人物北">
-        <a @click="changeNumber4">剩籌碼(含本)</a> : <input type="number" id="money4" value="" v-model="money4" size="0"
+        <a @click="changeNumber4">剩籌碼(含本)</a> : <input type="number" id="money4" inputmode="decimal" value="" v-model="money4" size="0"
           @keyup='clear(4)' placeholder="剩多少錢包含本金">
         <br>
         <br>
@@ -364,6 +364,10 @@
             this.rate = this.getParameter[1];
 
             this.getParameter.splice(0, 2)
+
+            if(urlString.indexOf(",") != -1 ){
+              this.getParameter = this.getParameter[0].split(',')
+            }            
             console.log(this.getParameter)
           }
         },
@@ -485,6 +489,7 @@
             this.changeNumberCounter4 = 0;
           }
 
+          
 
         },
         branchimportswitchs() {
