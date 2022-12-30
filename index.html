@@ -351,7 +351,7 @@
         },
         getParameters() {
           let urlString = window.location.href
-          if (urlString.indexOf("?a=") != -1) {
+          if (urlString.indexOf("?a=") != -1 || urlString.indexOf("?A=") != -1) {
             this.selectshow = true;
             let paramString = urlString.split('?')[1];
             let queryString = new URLSearchParams(paramString);

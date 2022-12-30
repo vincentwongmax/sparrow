@@ -4,7 +4,7 @@
 https://vincentwongmax.github.io/sparrow/
 
 或
-https://vincentwongmax.github.io/sparrow/?A=800&B=0.1&C=Mary&D=Ben&E=Tom&F=Apple&G=Orange&H=Kitty&I=Star
+https://vincentwongmax.github.io/sparrow/?a=800&b=0.1&c=Mary&d=Ben&e=Tom&f=Apple&g=Orange&h=Kitty&i=Star
 
 
 說明:
