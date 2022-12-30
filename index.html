@@ -43,13 +43,21 @@
 <body>
   <div id="app" class="container">
     <center>
-      <div v-if="selectshow" >
+
+      <!-- <div v-if="selectshow" >
         <select id="sel" v-model="Select_People" @change="Select_People_Function(Select_People)">
           <option value="">請選擇人物</option>
           <option type="input" v-for="product in getParameter" value="{{ product }}">
             {{ product }}
           </option>
         </select>
+      </div>
+       -->
+
+      <div v-if="selectshow" >          
+          <button class="button is-link is-outlined" type="input" v-model="Select_People" @click="Select_People_Function(product)" v-for="product in getParameter" value="{{ product }}">
+            {{ product }}  
+          </button>               
       </div>
       <br v-if="selectshow">
       <br v-if="selectshow">
@@ -496,6 +504,7 @@
 
           this.omoney1 = 1;
           this.show = true;
+          this.selectshow =false;
           document.getElementById("paypaypay").innerHTML = "";
 
           if (this.commission == '') {
