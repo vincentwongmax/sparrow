@@ -311,6 +311,7 @@
         getParameter: [],
         Select_People: 0,
         Select_Peoplenumber: 0,
+        Dont_Double_Select_People: '' ,
       },
       ready() {
         this.getParameters();
@@ -400,6 +401,12 @@
           }, 1000);
         },
         Select_People_Function(Select_People) {
+
+          if(this.Dont_Double_Select_People == Select_People){
+            this.Select_Peoplenumber -= 1;
+          }
+
+          this.Dont_Double_Select_People = Select_People ;
           let count = this.Select_Peoplenumber % 4;
           console.log("目前是按了第幾次", count);
           console.log(Select_People);
@@ -413,7 +420,8 @@
           } else if (count == 3) {
             this.name4 = Select_People;
           }
-          this.Select_Peoplenumber += 1;
+          
+            this.Select_Peoplenumber += 1;
         },
         getParameters() {
           let urlString = window.location.href
