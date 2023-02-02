@@ -2,15 +2,13 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>sparrow</title>
   <link href="css/phone.css" rel="stylesheet" type="text/css"
     media="only screen and (min-width: 0px) and (max-width: 520px)" />
   <link href="css/tablet.css" rel="stylesheet" type="text/css"
     media="only screen and (min-width: 521px) and (max-width: 768px)" /--> <link href="css/desktop.css" rel="stylesheet"
     type="text/css" />
-
 
   <script lang="javascript" src="js/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.28/vue.min.js"></script>
@@ -23,10 +21,11 @@
   <script src="./js/alasql.min.js"></script>
   <script src="./js/jquery.js"> </script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1,mininmum-scale=1,maximum-scale=1,user-scalable=no,charset='UTF-8'"
+    shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
   <!-- <link rel="manifest" href="./manifest.webmanifest"> -->
@@ -42,9 +41,9 @@
 
 <body>
   <div id="app" class="container">
-    <center>
 
-      <!-- <div v-if="selectshow" >
+    <center>
+      <!-- old date <div v-if="selectshow" >
         <select id="sel" v-model="Select_People" @change="Select_People_Function(Select_People)">
           <option value="">請選擇人物</option>
           <option type="input" v-for="product in getParameter" value="{{ product }}">
@@ -53,16 +52,15 @@
         </select>
       </div>
        -->
-
-      <div v-if="selectshow" >          
-          <button class="button is-link is-outlined" type="input" v-model="Select_People" @click="Select_People_Function(product)" v-for="product in getParameter" value="{{ product }}">
-            {{ product }}  
-          </button>               
+      <div v-if="selectshow">
+        <a class="button is-link is-outlined" v-model="Select_People" @click="Select_People_Function(product)"
+          v-for="product in getParameter" value="{{ product }}">
+          {{ product }}
+        </a>
       </div>
       <br v-if="selectshow">
       <br v-if="selectshow">
-      <h3 class="title is-3 ">雀神 <img src="image/youtube.png" width="5%" height="5%" alt="影片教學"
-          href="https://www.youtube.com/playlist?list=PLOUGje_jNczNarCntAhi26Pw2xToh6G3H"></>
+      <h3 class="title is-3 ">雀神 <img src="image/youtube.png" width="5%" height="5%" alt="影片教學" href=""></>
       </h3>
       每人底銀是多少: <input id="basemoney" value="800" v-model="basemoney" size="5" placeholder="底銀">
       比率: <input id="basemoney" value="0.1" v-model="rate" size="5" placeholder="例如:0.1">
@@ -71,29 +69,28 @@
       <h1> 底銀平均值: {{sum}} &nbsp;&nbsp;&nbsp; 底銀誤差 : {{basemonerror}}</h1>
       <br>
       <div v-if="!show">
-        <br>
         抽水(剩籌碼) : <input type="number" id="money1" value="" v-model="commission" size="12" @keyup='clear'
           placeholder="有多少佣金">&nbsp;&nbsp; 每人可得佣(籌碼) {{percommission}}
         <br>
         <br>
         姓名: <input type="text" id="name1" value="人物東" v-model="name1" size="10" @keyup='clear' placeholder="人物東">
-        <a @click="changeNumber1">剩籌碼(含本)</a> : <input type="number" id="money1" inputmode="decimal"value="" v-model="money1" size="5"
-          @keyup='clear(1)' placeholder="剩多少錢包含本金">
+        <a @click="changeNumber1">剩籌碼(含本)</a> : <input type="number" id="money1" inputmode="decimal" value=""
+          v-model="money1" size="5" @keyup='clear(1)' placeholder="剩多少錢包含本金">
         <br>
         <br>
         姓名: <input type="text" id="name2" value="人物南" v-model="name2" size="10" @keyup='clear' placeholder="人物南">
-        <a @click="changeNumber2">剩籌碼(含本)</a> : <input type="number" id="money2" inputmode="decimal" value="" v-model="money2" size="5"
-          @keyup='clear(2)' placeholder="剩多少錢包含本金">
+        <a @click="changeNumber2">剩籌碼(含本)</a> : <input type="number" id="money2" inputmode="decimal" value=""
+          v-model="money2" size="5" @keyup='clear(2)' placeholder="剩多少錢包含本金">
         <br>
         <br>
         姓名: <input type="text" id="name3" value="人物西" v-model="name3" size="10" @keyup='clear' placeholder="人物西">
-        <a @click="changeNumber3">剩籌碼(含本)</a> : <input type="number" id="money3" inputmode="decimal" value="" v-model="money3" size="5"
-          @keyup='clear(3)' placeholder="剩多少錢包含本金">
+        <a @click="changeNumber3">剩籌碼(含本)</a> : <input type="number" id="money3" inputmode="decimal" value=""
+          v-model="money3" size="5" @keyup='clear(3)' placeholder="剩多少錢包含本金">
         <br>
         <br>
         姓名: <input type="text" id="name4" value="人物北" v-model="name4" size="10" @keyup='clear' placeholder="人物北">
-        <a @click="changeNumber4">剩籌碼(含本)</a> : <input type="number" id="money4" inputmode="decimal" value="" v-model="money4" size="0"
-          @keyup='clear(4)' placeholder="剩多少錢包含本金">
+        <a @click="changeNumber4">剩籌碼(含本)</a> : <input type="number" id="money4" inputmode="decimal" value=""
+          v-model="money4" size="0" @keyup='clear(4)' placeholder="剩多少錢包含本金">
         <br>
         <br>
         <button class="button is-success" @click="branchimportswitchs">提交</button>&nbsp;
@@ -167,15 +164,14 @@
                 </tr>
           </span>
           <br>
-
           </table>
-
         </div>
       </div>
-
       <br>
   </div>
   <div v-if="show">
+    <a>{{nowDay}} {{nowTime}} </a>
+    <br>
     ↞ ------------------------------↠
     <br>
     <span><a class="title is-3 ">請跟指示進行結算 </a></span>
@@ -186,7 +182,6 @@
     ↞ ------------------------------↠
     <br>
     <button class="button is-warning" @click="reload">重置</button>
-
   </div>
   <br>
   </div>
@@ -199,7 +194,6 @@
       width: 90px;
     }
 
-
     .flex-align-title {
       text-align: center;
       width: 95%;
@@ -209,7 +203,6 @@
       text-align: left;
       display: inline-block;
     }
-
 
     #app {
       padding: 40px 0;
@@ -244,9 +237,46 @@
     }
   </style>
   <script>
+    // window.onload=function () {
+    //     document.addEventListener('touchstart',function (event) {
+    //       if(event.touches.length>1){
+    //         event.preventDefault();
+    //       }
+    //     });
+    //     var lastTouchEnd=0;
+    //     document.addEventListener('touchend',function (event) {
+    //       var now=(new Date()).getTime();
+    //       if(now-lastTouchEnd<=300){
+    //         event.preventDefault();
+    //       }
+    //       lastTouchEnd=now;
+    //     },false);
+    //     document.addEventListener('gesturestart', function (event) {
+    //       event.preventDefault();
+    //     });
+    //   }
+
+    // window.onload = function () {
+    //   document.addEventListener('touchstart', function (event) {
+    //     if (event.touches.length > 1) {
+    //       event.preventDefault();
+    //     }
+    //   })
+    //   var lastTouchEnd = 0;
+    //   document.addEventListener('touchend', function (event) {
+    //     var now = (new Date()).getTime();
+    //     if (now - lastTouchEnd <= 300) {
+    //       event.preventDefault();
+    //     }
+    //     lastTouchEnd = now;
+    //   }, false)
+    // }
+
     new Vue({
       el: "#app",
       data: {
+        nowDay: '',
+        nowTime: '',
         selectshow: false,
         lastmoney1: 0,
         lastmoney2: 0,
@@ -286,8 +316,14 @@
         this.getParameters();
         this.clear();
       },
-      computed: {
+      created() {
+        this.nowTimes();
+      },
+      mounted() {
+        this.nowTimes();
+      },
 
+      computed: {
         sum: function () {
           let money1 = this.money1;
           let money2 = this.money2;
@@ -341,6 +377,28 @@
         }
       },
       methods: {
+        timeFormate(timeStamp) {
+          let newdate = new Date(timeStamp);
+          let week = ['日', '一', '二', '三', '四', '五', '六'];
+
+          let year = newdate.getFullYear();
+          let month = newdate.getMonth() + 1 < 10 ? "0" + (newdate.getMonth() + 1) : newdate.getMonth() + 1;
+          let date = newdate.getDate() < 10 ? "0" + newdate.getDate() : newdate.getDate();
+          let hh = newdate.getHours() < 10 ? "0" + newdate.getHours() : newdate.getHours();
+          let mm = newdate.getMinutes() < 10 ? "0" + newdate.getMinutes() : newdate.getMinutes();
+          let ss = newdate.getSeconds() < 10 ? "0" + newdate.getSeconds() : newdate.getSeconds();
+
+          this.nowTime = hh + ":" + mm + ":" + ss;
+          this.nowDay = year + "年" + month + "月" + date + "日";
+        },
+
+        nowTimes() {
+          let self = this;
+          self.timeFormate(new Date());
+          setInterval(function () {
+            self.timeFormate(new Date());
+          }, 1000);
+        },
         Select_People_Function(Select_People) {
           let count = this.Select_Peoplenumber % 4;
           console.log("目前是按了第幾次", count);
@@ -373,9 +431,9 @@
 
             this.getParameter.splice(0, 2)
 
-            if(urlString.indexOf(",") != -1 ){
+            if (urlString.indexOf(",") != -1) {
               this.getParameter = this.getParameter[0].split(',')
-            }            
+            }
             console.log(this.getParameter)
           }
         },
@@ -466,15 +524,11 @@
               this.money4 = '';
             }
           }
-
-
-
           if (this.show == true) {
             if (confirm("按確定重置數據, 清空數據前請截圖保存")) {
               window.location.reload();
             }
           }
-
         },
         clear(changeNumberCounter) {
           this.percommission = this.commission / 4;
@@ -496,15 +550,12 @@
           if (changeNumberCounter == 4) {
             this.changeNumberCounter4 = 0;
           }
-
-          
-
         },
         branchimportswitchs() {
 
           this.omoney1 = 1;
           this.show = true;
-          this.selectshow =false;
+          this.selectshow = false;
           document.getElementById("paypaypay").innerHTML = "";
 
           if (this.commission == '') {
@@ -626,7 +677,6 @@
             }
           }
         },
-
       }
     });
   </script>
