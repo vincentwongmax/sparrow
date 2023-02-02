@@ -108,7 +108,7 @@
                   <td>↠</td>
                   <td> 原本</td>
                   <td v-if="percommission">+</td>
-                  <td v-if="percommission" >佣金</td>
+                  <td v-if="percommission">佣金</td>
                   <td> = </td>
                   <td>籌碼*比率</td>
                   <td>↠</td>
@@ -116,51 +116,60 @@
                 </tr>
 
                 <tr>
-                  <td>{{name1}} </td>
+                  <td v-if="!lastmoney1_isRead">{{name1}} </td>
+                  <td v-if="lastmoney1_isRead" style="color:rgb(236, 21, 111)" >{{name1}} </td>
                   <td>↠</td>
                   <td>{{omoney1}}</td>
                   <td v-if="percommission">+</td>
-                  <td v-if="percommission" >{{percommission}} </td>
+                  <td v-if="percommission">{{percommission}} </td>
                   <td> = </td>
                   <td>{{money1}}*{{rate}}</td>
                   <td>↠</td>
-                  <td>{{lastmoney1}}</td>
+                  <td v-if="!lastmoney1_isRead">{{lastmoney1}}</td>
+                  <td v-if="lastmoney1_isRead" style="color:rgb(236, 21, 111)" >{{lastmoney1}}</td>
                 </tr>
 
                 <tr>
-                  <td>{{name2}} </td>
+                  <td v-if="!lastmoney2_isRead">{{name2}} </td>
+                  <td v-if="lastmoney2_isRead" style="color:rgb(236, 21, 111)" >{{name2}} </td>
                   <td>↠</td>
                   <td>{{omoney2}}</td>
-                  <td v-if="percommission" >+</td>
+                  <td v-if="percommission">+</td>
                   <td v-if="percommission">{{percommission}} </td>
                   <td> = </td>
                   <td>{{money2}}*{{rate}}</td>
                   <td>↠</td>
-                  <td>{{lastmoney2}}</td>
+                  <td v-if="!lastmoney2_isRead">{{lastmoney2}}</td>
+                  <td v-if="lastmoney2_isRead" style="color:rgb(236, 21, 111)" >{{lastmoney2}}</td>
+
                 </tr>
 
                 <tr>
-                  <td>{{name3}} </td>
+                  <td v-if="!lastmoney3_isRead">{{name3}} </td>
+                  <td v-if="lastmoney3_isRead" style="color:rgb(236, 21, 111)" >{{name3}} </td>
                   <td>↠</td>
                   <td>{{omoney3}}</td>
-                  <td v-if="percommission" >+</td>
-                  <td v-if="percommission" >{{percommission}} </td>
+                  <td v-if="percommission">+</td>
+                  <td v-if="percommission">{{percommission}} </td>
                   <td> = </td>
                   <td>{{money3}}*{{rate}}</td>
                   <td>↠</td>
-                  <td>{{lastmoney3}}</td>
+                  <td v-if="!lastmoney3_isRead">{{lastmoney3}}</td>
+                  <td v-if="lastmoney3_isRead" style="color:rgb(236, 21, 111)" >{{lastmoney3}}</td>
                 </tr>
 
                 <tr>
-                  <td>{{name4}} </td>
+                  <td v-if="!lastmoney4_isRead">{{name4}} </td>
+                  <td v-if="lastmoney4_isRead" style="color:rgb(236, 21, 111)" >{{name4}} </td>
                   <td>↠</td>
                   <td>{{omoney4}}</td>
-                  <td v-if="percommission" >+</td>
-                  <td v-if="percommission" >{{percommission}} </td>
+                  <td v-if="percommission">+</td>
+                  <td v-if="percommission">{{percommission}} </td>
                   <td> = </td>
                   <td>{{money4}}*{{rate}}</td>
                   <td>↠</td>
-                  <td>{{lastmoney4}}</td>
+                  <td v-if="!lastmoney4_isRead">{{lastmoney4}}</td>
+                  <td v-if="lastmoney4_isRead" style="color:rgb(236, 21, 111)" >{{lastmoney4}}</td>
                 </tr>
           </span>
           <br>
@@ -190,6 +199,10 @@
   </center>
   </div>
   <style>
+    .isRed {
+      color: red;
+    }
+
     input[type='number'] {
       width: 90px;
     }
@@ -311,7 +324,11 @@
         getParameter: [],
         Select_People: 0,
         Select_Peoplenumber: 0,
-        Dont_Double_Select_People: '' ,
+        Dont_Double_Select_People: '',
+        lastmoney1_isRead : false ,
+        lastmoney2_isRead : false ,
+        lastmoney3_isRead : false ,
+        lastmoney4_isRead : false ,
       },
       ready() {
         this.getParameters();
@@ -402,11 +419,11 @@
         },
         Select_People_Function(Select_People) {
 
-          if(this.Dont_Double_Select_People == Select_People){
+          if (this.Dont_Double_Select_People == Select_People) {
             this.Select_Peoplenumber -= 1;
           }
 
-          this.Dont_Double_Select_People = Select_People ;
+          this.Dont_Double_Select_People = Select_People;
           let count = this.Select_Peoplenumber % 4;
           console.log("目前是按了第幾次", count);
           console.log(Select_People);
@@ -420,8 +437,8 @@
           } else if (count == 3) {
             this.name4 = Select_People;
           }
-          
-            this.Select_Peoplenumber += 1;
+
+          this.Select_Peoplenumber += 1;
         },
         getParameters() {
           let urlString = window.location.href
@@ -622,6 +639,23 @@
 
           this.sortByKey(this.count, 'money');
           this.wtfwhocare(this.count);
+
+          if(this.lastmoney1 > 0){
+            this.lastmoney1_isRead = true; 
+          }
+          
+          if(this.lastmoney2 > 0){
+            this.lastmoney2_isRead = true;  
+          }
+
+          if(this.lastmoney3 > 0){
+            this.lastmoney3_isRead = true;  
+          }
+
+          if(this.lastmoney4 > 0){
+            this.lastmoney4_isRead = true;  
+          }
+
         },
         sortByKey(array, key) { //排序JSON 
           return array.sort(function (a, b) {
